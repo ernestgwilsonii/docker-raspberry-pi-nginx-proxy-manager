@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    hostname: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - type: bind
+        source: /opt/docker/nginx-proxy-manager/data
+        target: /data
+      - type: bind
+        source: /opt/docker/nginx-proxy-manager/letsencrypt
+        target: /etc/letsencrypt
+    deploy:
+      labels:
+        local.description: "NGINX Proxy Manager"
+      restart_policy:
+        condition: on-failure
